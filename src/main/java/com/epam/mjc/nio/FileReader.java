@@ -47,9 +47,8 @@ public class FileReader {
         return profile;
     }
 
-    private InputStream getFileFromResourceAsStream(String fileName) {
-        ClassLoader classLoader = getClass().getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(fileName);
+    private InputStream getFileFromResourceAsStream(String fileName) throws FileNotFoundException {
+        InputStream inputStream = new FileInputStream(fileName);
         if (inputStream == null) {
             throw new IllegalArgumentException("file not found! " + fileName);
         } else {
