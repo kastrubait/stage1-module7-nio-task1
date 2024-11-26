@@ -7,7 +7,13 @@ public class FileReader {
 
     public Profile getDataFromFile(File file) {
 
-        InputStream inputStream = getFileFromResourceAsStream(String.valueOf(file));
+        InputStream inputStream = null;
+        try {
+            inputStream = getFileFromResourceAsStream(String.valueOf(file));
+        } catch (CustomArgumentException e) {
+            return new Profile();
+        }
+
         Profile profile = null;
         try ( InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
               BufferedReader reader = new BufferedReader(streamReader)) {
@@ -47,12 +53,12 @@ public class FileReader {
         return profile;
     }
 
-    private InputStream getFileFromResourceAsStream(String fileName) {
+    private InputStream getFileFromResourceAsStream(String fileName) throws CustomArgumentException {
         InputStream inputStream = null;
         try {
             inputStream = new FileInputStream(fileName);
         } catch (FileNotFoundException e) {
-            new IllegalArgumentException("file not found! " + fileName);;
+            throw new CustomArgumentException(e);
         }
         return inputStream;
     }
