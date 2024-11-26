@@ -47,12 +47,13 @@ public class FileReader {
         return profile;
     }
 
-    private InputStream getFileFromResourceAsStream(String fileName) throws FileNotFoundException {
-        InputStream inputStream = new FileInputStream(fileName);
-        if (inputStream == null) {
-            throw new IllegalArgumentException("file not found! " + fileName);
-        } else {
-            return inputStream;
+    private InputStream getFileFromResourceAsStream(String fileName) {
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(fileName);
+        } catch (FileNotFoundException e) {
+            new IllegalArgumentException("file not found! " + fileName);;
         }
+        return inputStream;
     }
 }
